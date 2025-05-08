@@ -51,6 +51,12 @@ function App() {
   }, [selectedOption]);
 
   const renderRoutes = () => {
+    return modulesData.map((u, index) => (
+      {
+        path: u.url.replace("/", ""),
+        element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
+      }
+    ));
     return modulesData.map((u, index) => ({
       path: u.url.replace("/", ""),
       element: <FirstPage templateId={u?.template_id} />,
@@ -61,15 +67,32 @@ function App() {
 
   useEffect(() => {
     if (selectedOption && modulesData.length > 0) {
+      console.log(selectedOption, 'ran outer');
       const newRouter = createBrowserRouter([
         {
           path: "/",
-          element: <Layout modulesData={modulesData} />, // ✅ Pass fresh props
+          element: <Layout modulesData={modulesData} selectedOption={selectedOption} />, // ✅ Pass fresh props
           children: renderRoutes(),
         },
       ]);
       setRouter(newRouter);
     }
+  }, [modulesData, selectedOption]);
+
+
+
+  return <>
+    <div className="flex justify-center items-center gap-4 mt-4">
+      <select
+        value={selectedOption}
+        onChange={handleChange}
+        className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="" disabled>Select User Role</option>
+        {rolesOptions?.map((r, i) => (
+          <option value={r?.value} key={i}>{r?.label}</option>
+        ))}
+      </select>
   }, [modulesData]);
   return (
     <>
