@@ -15,6 +15,7 @@ import Layout from "./component/Layout";
 import SecondPage from "./pages/SecondPage";
 import ThirdPage from "./pages/ThirdPage";
 import FirstPage from "./pages/FirstPage";
+import client from "./client";
 
 function App() {
 
@@ -24,12 +25,17 @@ function App() {
     setSelectedOption(e.target.value);
   };
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   // call api based on user 
+    // call api based on user 
+    const fetchRoles = async () => {
+      let res = await client.get('/v2-role/fetch-roles')
+    }
 
 
-  // }, [selectedOption])
+    fetchRoles()
+
+  }, [])
 
 
 
