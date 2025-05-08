@@ -12,16 +12,13 @@ import Layout from "./component/Layout";
 import { useRoleContext } from "./context/RoleContext";
 
 function App() {
-
-
-
   const {
     selectedOption,
     setSelectedOption,
     modulesData,
     setModulesData,
     rolesOptions,
-    setRolesOptions
+    setRolesOptions,
   } = useRoleContext();
 
   // const [selectedOption, setSelectedOption] = useState("");
@@ -31,7 +28,6 @@ function App() {
   };
 
   // const [rolesOptions, setRolesOptions] = useState([])
-
 
   // const [modulesData, setModulesData] = useState([]);
 
@@ -63,15 +59,9 @@ function App() {
   }, [selectedOption]);
 
   const renderRoutes = () => {
-    return modulesData.map((u, index) => (
-      {
-        path: u.url.replace("/", ""),
-        // element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
-        element: <FirstPage templateId={u?.template_id} />
-      }
-    ));
     return modulesData.map((u, index) => ({
       path: u.url.replace("/", ""),
+      // element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
       element: <FirstPage templateId={u?.template_id} />,
     }));
   };
@@ -80,7 +70,7 @@ function App() {
 
   useEffect(() => {
     if (selectedOption && modulesData.length > 0) {
-      console.log(selectedOption, 'ran outer');
+      console.log(selectedOption, "ran outer");
       const newRouter = createBrowserRouter([
         {
           path: "/",
@@ -93,21 +83,6 @@ function App() {
     }
   }, [modulesData]);
 
-
-
-  return <>
-    <div className="flex justify-center items-center gap-4 mt-4">
-      <select
-        value={selectedOption}
-        onChange={handleChange}
-        className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-      >
-        <option value="" disabled>Select User Role</option>
-        {rolesOptions?.map((r, i) => (
-          <option value={r?.value} key={i}>{r?.label}</option>
-        ))}
-      </select>
-  }, [modulesData]);
   return (
     <>
       <div className="flex justify-center items-center gap-4 mt-4">
@@ -131,7 +106,7 @@ function App() {
         )}
       </div>
       {router ? (
-        <RouterProvider router={router} />
+        <RouterProvider key={selectedOption} router={router} />
       ) : (
         <div className="flex justify-center min-h-[60vh] items-center ">
           <h3 className="text-3xl">Please Select a User role to begin with</h3>
