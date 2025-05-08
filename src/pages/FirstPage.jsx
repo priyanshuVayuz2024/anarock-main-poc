@@ -164,13 +164,16 @@ const FirstPage = ({ templateId }) => {
   const navigate = useNavigate()
 
 
-  console.log(tableComps, 'hmmm');
 
-
-  const actionMenu = tableComps?.map((m) => {
-    return {
-      text: m?.label,
-    };
+  const actionMenu = []
+  tableComps?.forEach((m) => {
+    if (m?.[`table-components-permission`]?.length > 0) {
+      actionMenu.push(
+        {
+          text: m?.label,
+        }
+      )
+    }
   });
 
 
