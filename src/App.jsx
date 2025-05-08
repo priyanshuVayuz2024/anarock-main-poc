@@ -37,8 +37,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-
-
     const fetchPages = async () => {
       let res = await client.get(`/v2-role/fetch-page?role_id=${selectedOption}`)
       setModulesData(res?.data?.result?.[0]?.modules?.flatMap(module => module.module_urls || []) || []);
@@ -54,7 +52,7 @@ function App() {
     return modulesData.map((u, index) => (
       {
         path: u.url.replace("/", ""),
-        element: <FirstPage templateId={u?.template_id} />
+        element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
       }
     ));
   };
@@ -63,16 +61,20 @@ function App() {
 
   useEffect(() => {
     if (selectedOption && modulesData.length > 0) {
+      console.log(selectedOption, 'ran outer');
       const newRouter = createBrowserRouter([
         {
           path: "/",
-          element: <Layout modulesData={modulesData} />, // ✅ Pass fresh props
+          element: <Layout modulesData={modulesData} selectedOption={selectedOption} />, // ✅ Pass fresh props
           children: renderRoutes(),
         },
       ]);
       setRouter(newRouter);
     }
-  }, [modulesData]);
+  }, [modulesData, selectedOption]);
+
+
+
   return <>
     <div className="flex justify-center items-center gap-4 mt-4">
       <select
@@ -91,7 +93,7 @@ function App() {
       )}
     </div>
     {router ? (
-      <RouterProvider router={router} />
+      <RouterProvider key={selectedOption} router={router} />
     ) : (
       <div className="flex justify-center min-h-[60vh] items-center ">
         <h3 className="text-3xl">Please Select a User role to begin with</h3>
