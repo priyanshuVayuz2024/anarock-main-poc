@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useRoleContext } from "../context/RoleContext";
 
-function Layout({ modulesData, selectedOption }) {
+function Layout() {
   const navigate = useNavigate();
 
 
-  console.log(selectedOption, 'ran inner');
-
+  const {
+    selectedOption,
+    modulesData,
+  } = useRoleContext();
 
   useEffect(() => {
-    if (selectedOption) {
-      navigate("/"); // Redirect to root on role change
-    }
+    navigate("/");
   }, [selectedOption]);
-
-
 
 
   return (

@@ -9,19 +9,31 @@ import { useEffect, useState } from "react";
 import FirstPage from "./pages/FirstPage";
 import client from "./client";
 import Layout from "./component/Layout";
+import { useRoleContext } from "./context/RoleContext";
 
 function App() {
-  const [selectedOption, setSelectedOption] = useState("");
+
+
+
+  const {
+    selectedOption,
+    setSelectedOption,
+    modulesData,
+    setModulesData,
+    rolesOptions,
+    setRolesOptions
+  } = useRoleContext();
+
+  // const [selectedOption, setSelectedOption] = useState("");
 
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
   };
 
-  const [rolesOptions, setRolesOptions] = useState([]);
-  console.log(rolesOptions, "rolesOptions");
+  // const [rolesOptions, setRolesOptions] = useState([])
 
-  const [modulesData, setModulesData] = useState([]);
-  console.log(modulesData, "modulesData");
+
+  // const [modulesData, setModulesData] = useState([]);
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -54,7 +66,8 @@ function App() {
     return modulesData.map((u, index) => (
       {
         path: u.url.replace("/", ""),
-        element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
+        // element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
+        element: <FirstPage templateId={u?.template_id} />
       }
     ));
     return modulesData.map((u, index) => ({
@@ -71,13 +84,14 @@ function App() {
       const newRouter = createBrowserRouter([
         {
           path: "/",
-          element: <Layout modulesData={modulesData} selectedOption={selectedOption} />, // ✅ Pass fresh props
+          element: <Layout />, // ✅ Pass fresh props
+          // element: <Layout modulesData={modulesData} selectedOption={selectedOption} />, // ✅ Pass fresh props
           children: renderRoutes(),
         },
       ]);
       setRouter(newRouter);
     }
-  }, [modulesData, selectedOption]);
+  }, [modulesData]);
 
 
 

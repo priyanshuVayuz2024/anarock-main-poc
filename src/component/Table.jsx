@@ -167,12 +167,11 @@ const ReusableTable = ({
               {header?.sortKey && (
                 <button onClick={() => handleSort(header)}>
                   <ArrowDropDownIcon
-                    className={`${
-                      searchParams.get("sort_by") == header.sortKey &&
-                      searchParams.get("direction") === "ASC"
+                    className={`${searchParams.get("sort_by") == header.sortKey &&
+                        searchParams.get("direction") === "ASC"
                         ? "rotate-180"
                         : ""
-                    }`}
+                      }`}
                   />
                 </button>
               )}
@@ -315,8 +314,8 @@ const ReusableTable = ({
                         .filter(Boolean);
                       const updated = currentHidden.includes(hd.columnHideKey)
                         ? currentHidden.filter(
-                            (col) => col !== hd.columnHideKey
-                          )
+                          (col) => col !== hd.columnHideKey
+                        )
                         : [...currentHidden, hd.columnHideKey];
 
                       const params = new URLSearchParams(searchParams);
@@ -425,15 +424,17 @@ const ReusableTable = ({
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          component={"div"}
-          count={totalLength}
-          page={currPage}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[5, 10, 25]}
-        ></TablePagination>
+        {totalLength > 10 &&
+          <TablePagination
+            component={"div"}
+            count={totalLength}
+            page={currPage}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 25]}
+          ></TablePagination>
+        }
       </div>
     </>
   );
