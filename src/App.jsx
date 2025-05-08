@@ -25,11 +25,16 @@ function App() {
     setSelectedOption(e.target.value);
   };
 
+  const [rolesOptions, setRolesOptions] = useState([])
+
+
   useEffect(() => {
 
     // call api based on user 
     const fetchRoles = async () => {
       let res = await client.get('/v2-role/fetch-roles')
+      setRolesOptions(res.data.reul)
+
     }
 
 
