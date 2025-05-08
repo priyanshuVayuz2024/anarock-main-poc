@@ -1,0 +1,49 @@
+first login karte hi response 
+
+
+[{url , module_id , status, name}, ...]
+
+
+
+if module url == current url
+
+
+
+call 2nd API  get  /module_id
+
+
+
+now response => [{ route ,name, module_url_id, status, template_id },...]
+
+
+
+
+if route === current route 
+
+
+call 3rd API get /module_url_id or /template_id
+
+
+
+now response => {
+     components : [{componentId, label, type, link}, ... ]    // acc to user roles
+     table : { tableId, urlForTable }
+}
+
+
+
+call 4th api to get urlForTable
+
+
+
+
+now response => { header : ['hd1', 'h2' , 'hd3'] 
+data: [{ 
+key1: {text: "abcd" , link: '/fdasaf'}
+key2: {text:"fasfa" , color: "red"}
+}]
+action : [{type, url},{type, url}]        //acc to roles
+length,
+filter, ..... 
+
+}
