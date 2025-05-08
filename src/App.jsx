@@ -1,6 +1,7 @@
 import "./App.css";
 import {
   createBrowserRouter,
+  Navigate,
   Outlet,
   RouterProvider,
   useNavigate,
@@ -84,6 +85,18 @@ function App() {
         },
       ]);
       setRouter(newRouter);
+    } else {
+      const newRouter = createBrowserRouter([
+        {
+          path: "/",
+          element: <Layout />,
+        },
+        {
+          path: "*",
+          element: <Navigate to="/" replace />,
+        },
+      ]);
+      setRouter(newRouter);
     }
   }, [modulesData]);
 
@@ -101,10 +114,10 @@ function App() {
           <option value={r?.value} key={i}>{r?.label}</option>
         ))}
       </select>
-
+      {/* 
       {selectedOption && (
         <span className="text-gray-700">Selected: {selectedOption}</span>
-      )}
+      )} */}
     </div>
     {router ? (
       <RouterProvider key={selectedOption} router={router} />

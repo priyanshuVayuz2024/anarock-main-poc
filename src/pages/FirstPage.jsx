@@ -178,30 +178,35 @@ const FirstPage = ({ templateId }) => {
 
 
 
-  return (
-    <div className="flex flex-col gap-20 items-center justify-center mt-[10%] m-auto">
-      <div className="flex gap-2 justify-center my-10">
-        {comps.map((m, i) => {
-          if (m?.type == "btn") {
-            return <button
-              key={i}
-              onClick={() => navigate(`${m.link.replace("/", "")}`)}
-              className="bg-blue-500 px-3 py-2 rounded-md text-white"
-            >
-              {m.label}
-            </button>
-          }
-        })}
 
-      </div>
-      <p className="text-4xl">
-        <ReusableTable
-          headers={headers}
-          tableData={tableData}
-          actionMenu={actionMenu}
-        />
-      </p>
-    </div >
+  return (
+    <>
+
+      <div className="flex flex-col gap-20 items-center justify-center mt-[10%] m-auto">
+        <div className="flex gap-2 justify-center my-10">
+          {comps.map((m, i) => {
+            if (m?.type == "btn") {
+              return <button
+                key={i}
+                onClick={() => navigate(`${m.link.replace("/", "")}`)}
+                className="bg-blue-500 px-3 py-2 rounded-md text-white"
+              >
+                {m.label}
+              </button>
+            }
+          })}
+
+        </div>
+        <p className="text-4xl">
+          <ReusableTable
+            headers={headers}
+            tableData={tableData}
+            actionMenu={actionMenu}
+          />
+        </p>
+      </div >
+
+    </>
   );
 };
 
