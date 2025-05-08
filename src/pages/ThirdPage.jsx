@@ -1,5 +1,4 @@
 import React from "react";
-import { header, dummyTableData } from "../App";
 import { useNavigate } from "react-router-dom";
 import ReusableTable from "../component/Table";
 

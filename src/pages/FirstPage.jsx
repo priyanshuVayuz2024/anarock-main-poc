@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { header, dummyTableData } from "../App";
-import ReusableTable from "../component/Table";
+
+import { buttons } from "../utils";
 const FirstPage = () => {
   const navigate = useNavigate();
   const actionMenu = [
@@ -15,12 +15,25 @@ const FirstPage = () => {
     // },
   ];
   return (
-    <div className="flex flex-col items-center justify-center mt-[10%]   m-auto bg-gray-200">
-      <ReusableTable
+    <div className="flex flex-col gap-20 items-center justify-center mt-[10%] m-auto">
+      <div className="flex gap-2">
+        {buttons.map((button) => (
+          <button
+            className={button.className}
+            onClick={() => navigate(`${button.to}`)}
+          >
+            {button.text}
+          </button>
+        ))}
+      </div>
+      {/* <ReusableTable
         headers={header}
         tableData={dummyTableData}
         actionMenu={actionMenu}
-      />
+      /> */}
+      <p className="text-4xl">
+        Table
+      </p>
     </div>
   );
 };

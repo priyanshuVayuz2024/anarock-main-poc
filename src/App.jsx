@@ -1,4 +1,3 @@
-import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -10,103 +9,32 @@ import {
   RouterProvider,
   Routes,
 } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import Layout from "./component/Layout";
 import SecondPage from "./pages/SecondPage";
 import ThirdPage from "./pages/ThirdPage";
 import FirstPage from "./pages/FirstPage";
 
-export const header = [
-  {
-    title: "Resume",
-    // sortKey: "title",
-    // action: facilityNameActions,
-    // columnHideKey: "title",
-    isSearchAble: false,
-  },
-  {
-    title: "Job Title",
-    // sortKey: "brand",
-    // action: facilityNameActions,
-    // columnHideKey: "brand",
-    isSearchAble: false,
-    // pin: true,
-  },
-  {
-    title: "Score",
-  },
-];
-
-// export const dummyData = [
-//     {
-//         sno:
-//     }
-// ]
-
-export const dummyTableData = [
-  {
-    name: {
-      text: "Priyanshu resume",
-      url: "https://example.com/users/alice",
-      link: true,
-      id: "user1",
-    },
-    jd: {
-      text: "React Internal",
-      url: "",
-      link: false,
-      id: "gender1",
-    },
-    score: {
-      text: "85",
-      url: "",
-      link: false,
-      id: "age1",
-    },
-  },
-  {
-    name: {
-      text: "updatedResume",
-      url: "https://example.com/users/bob",
-      link: true,
-      id: "user2",
-    },
-    gender: {
-      text: "Php developer",
-      url: "",
-      link: false,
-      id: "gender2",
-    },
-    age: {
-      text: "35",
-      url: "",
-      link: false,
-      id: "age2",
-    },
-  },
-  {
-    name: {
-      text: "Resume neha Aswal",
-      url: "https://example.com/users/charlie",
-      link: true,
-      id: "user3",
-    },
-    gender: {
-      text: "Python developer",
-      url: "",
-      link: false,
-      id: "gender3",
-    },
-    age: {
-      text: "80",
-      url: "",
-      link: false,
-      id: "age3",
-    },
-  },
-];
-
 function App() {
+
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const handleChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
+  // useEffect(() => {
+
+  //   // call api based on user 
+
+
+  // }, [selectedOption])
+
+
+
+
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -114,23 +42,47 @@ function App() {
       children: [
         {
           index: true,
-          path: "/firstpage",
           element: <FirstPage />,
         },
         {
           index: true,
-          path: "/second",
+          path: "second",
           element: <SecondPage />,
         },
         {
           index: true,
-          path: "/third",
+          path: "third",
           element: <ThirdPage />,
         },
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return <>
+    <div className="flex justify-center items-center gap-4 mt-4">
+      <select
+        value={selectedOption}
+        onChange={handleChange}
+        className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="" disabled>Select User Role</option>
+        <option value="option1">User 1</option>
+        <option value="option2">User 2</option>
+        <option value="option3">User 3</option>
+      </select>
+
+      {selectedOption && (
+        <span className="text-gray-700">Selected: {selectedOption}</span>
+      )}
+    </div>
+    {selectedOption ?
+      <RouterProvider router={router} /> :
+      <>
+        <div className="flex justify-center min-h-[60vh] items-center ">
+          <h3 className="text-3xl">Please Select an User role to begin with</h3>
+        </div>
+      </>
+    }
+  </>
 }
 
 export default App;
