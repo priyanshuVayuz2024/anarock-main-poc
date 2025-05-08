@@ -5,7 +5,6 @@ import {
   Outlet,
   RouterProvider,
   useNavigate,
-
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FirstPage from "./pages/FirstPage";
@@ -14,16 +13,13 @@ import Layout from "./component/Layout";
 import { useRoleContext } from "./context/RoleContext";
 
 function App() {
-
-
-
   const {
     selectedOption,
     setSelectedOption,
     modulesData,
     setModulesData,
     rolesOptions,
-    setRolesOptions
+    setRolesOptions,
   } = useRoleContext();
 
   // const [selectedOption, setSelectedOption] = useState("");
@@ -34,48 +30,48 @@ function App() {
 
   // const [rolesOptions, setRolesOptions] = useState([])
 
-
   // const [modulesData, setModulesData] = useState([]);
 
   useEffect(() => {
-
     const fetchRoles = async () => {
-      let res = await client.get('/v2-role/fetch-roles')
-      setRolesOptions(res?.data?.result?.map(r => ({ label: r?.role, value: r?.role_id })))
-    }
+      let res = await client.get("/v2-role/fetch-roles");
+      setRolesOptions(
+        res?.data?.result?.map((r) => ({ label: r?.role, value: r?.role_id }))
+      );
+    };
 
-
-    fetchRoles()
-
-  }, [])
+    fetchRoles();
+  }, []);
 
   useEffect(() => {
     const fetchPages = async () => {
-      let res = await client.get(`/v2-role/fetch-page?role_id=${selectedOption}`)
-      setModulesData(res?.data?.result?.[0]?.modules?.flatMap(module => module.module_urls || []) || []);
-    }
+      let res = await client.get(
+        `/v2-role/fetch-page?role_id=${selectedOption}`
+      );
+      setModulesData(
+        res?.data?.result?.[0]?.modules?.flatMap(
+          (module) => module.module_urls || []
+        ) || []
+      );
+    };
     if (selectedOption) {
-      fetchPages()
+      fetchPages();
     }
-
-  }, [selectedOption])
-
+  }, [selectedOption]);
 
   const renderRoutes = () => {
-    return modulesData.map((u, index) => (
-      {
-        path: u.url.replace("/", ""),
-        // element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
-        element: <FirstPage templateId={u?.template_id} />
-      }
-    ));
+    return modulesData.map((u, index) => ({
+      path: u.url.replace("/", ""),
+      // element: <FirstPage templateId={u?.template_id} roleId={selectedOption} />
+      element: <FirstPage templateId={u?.template_id} />,
+    }));
   };
 
   const [router, setRouter] = useState(null);
 
   useEffect(() => {
     if (selectedOption && modulesData.length > 0) {
-      console.log(selectedOption, 'ran outer');
+      console.log(selectedOption, "ran outer");
       const newRouter = createBrowserRouter([
         {
           path: "/",
