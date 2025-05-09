@@ -131,28 +131,31 @@ const tableData = [
 
 
 
-const FirstPage = ({ templateId }) => {
+const FirstPage = ({ }) => {
   const [comps, setComps] = useState([])
   const [tableComps, setTableComps] = useState([])
 
   const {
     selectedOption: roleId,
+    templateId,
+    selectedOptionComm
   } = useRoleContext();
 
   useEffect(() => {
     const fetchTemplate = async () => {
-      let res = await client.get(`/v2-role/fetch-components?template_id=${templateId}&role_id=${roleId}`)
+      let res = await client.get(`/v2-role/fetch-components?template_id=${templateId}&role_id=${roleId}&community_id=${selectedOptionComm}`)
       let temp = []
       let tableTemp = []
+
       res?.data?.result?.forEach(rs => {
-        temp.push(rs?.[`template-components`]?.[0]?.component_data?.[0])
-        if (rs?.table_data?.length > 0) {
-          tableTemp = [...tableTemp, ...rs?.table_data?.[0]?.[`table-components`]?.map(tc => tc?.component_data?.[0])]
+        if (rs?.component_data?.type == "btn") {
+          temp.push({ link: rs?.component_data?.link, label: rs?.component_data?.label })
+        } else if (rs?.component_data?.type == "table") {
+          tableTemp = rs?.table_children
         }
       })
       setComps(temp)
       setTableComps(tableTemp)
-      // setModulesData(res?.data?.result?.[0]?.modules?.flatMap(module => module.module_urls || []) || []);
     }
 
 
@@ -167,10 +170,11 @@ const FirstPage = ({ templateId }) => {
 
   const actionMenu = []
   tableComps?.forEach((m) => {
-    if (m?.[`table-components-permission`]?.length > 0) {
+    if (m?.[`table-child-component-permission`]?.length > 0 && m?.[`table-child-component-permission`]?.[0]?.is_active) {
       actionMenu.push(
         {
           text: m?.label,
+          onClick: () => navigate(m?.link)
         }
       )
     }
@@ -181,11 +185,11 @@ const FirstPage = ({ templateId }) => {
 
   return (
     <>
-
-      <div className="flex flex-col gap-20 items-center justify-center mt-[10%] m-auto">
-        <div className="flex gap-2 justify-center my-10">
-          {comps.map((m, i) => {
-            if (m?.type == "btn") {
+      {templateId ?
+        <div className="flex flex-col gap-20 items-center justify-center m-auto">
+          <h1>Page in the end</h1>
+          <div className="flex gap-2 justify-center my-2">
+            {comps.filter(c => !c?.is_deactived)?.map((m, i) => {
               return <button
                 key={i}
                 onClick={() => navigate(`${m.link.replace("/", "")}`)}
@@ -193,18 +197,20 @@ const FirstPage = ({ templateId }) => {
               >
                 {m.label}
               </button>
-            }
-          })}
+            })}
 
-        </div>
-        <p className="text-4xl">
+          </div>
           <ReusableTable
             headers={headers}
             tableData={tableData}
             actionMenu={actionMenu}
           />
-        </p>
-      </div >
+        </div >
+        :
+        <div className="flex justify-center">
+          <h3 className="py-20">Default Page</h3>
+        </div>
+      }
 
     </>
   );
