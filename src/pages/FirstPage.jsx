@@ -148,9 +148,9 @@ const FirstPage = ({ }) => {
       let tableTemp = []
 
       res?.data?.result?.forEach(rs => {
-        if (rs?.component_data?.type == "btn") {
+        if (rs?.component_data?.type == "btn" && !rs?.is_deactived) {
           temp.push({ link: rs?.component_data?.link, label: rs?.component_data?.label })
-        } else if (rs?.component_data?.type == "table") {
+        } else if (rs?.component_data?.type == "table" && !rs?.component_data?.is_deactived) {
           tableTemp = rs?.table_children
         }
       })
@@ -189,7 +189,7 @@ const FirstPage = ({ }) => {
         <div className="flex flex-col gap-20 items-center justify-center m-auto">
           <h1>Page in the end</h1>
           <div className="flex gap-2 justify-center my-2">
-            {comps.filter(c => !c?.is_deactived)?.map((m, i) => {
+            {comps.map((m, i) => {
               return <button
                 key={i}
                 onClick={() => navigate(`${m.link.replace("/", "")}`)}
