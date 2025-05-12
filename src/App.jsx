@@ -83,6 +83,7 @@ function App() {
             <option value={r?.value} key={i}>{r?.label}</option>
           ))}
         </select>
+        
 
         {selectedOption && (
           <span className="text-gray-700">Selected: {rolesOptions?.filter(rol => rol?.value == selectedOption)?.[0]?.label}</span>
