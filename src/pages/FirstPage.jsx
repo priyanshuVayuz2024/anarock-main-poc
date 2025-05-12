@@ -161,7 +161,7 @@ const FirstPage = ({ }) => {
 
 
     fetchTemplate()
-  }, [templateId, roleId])
+  }, [templateId, roleId, selectedOptionComm])
 
 
   const navigate = useNavigate()
